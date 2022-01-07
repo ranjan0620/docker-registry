@@ -1,12 +1,23 @@
-version: 2.1
-workflows:
- test-deploy:
-  jobs:
-   - test
+version: '2.1'
 jobs:
- test:
-  docker:
-   - image: cimg/node:13.14.0
-  steps:
-   - checkout
-   - run: node --version
+  build_and_push:
+    parameters:
+      dockerfile_name:
+        type: string
+        default: Dockerfile
+      repo_name:
+        type: string
+    docker:
+      - image: cimg/base:2021.04
+    steps:   
+      - checkout
+      - run: python --version
+workflows:
+  development:
+    jobs:
+      - build_and_push:
+          dockerfile_name: Dockerfile
+          repo_name: 'ranjan0620/docker-registry'
+          filters:
+            branches:
+              only: master
