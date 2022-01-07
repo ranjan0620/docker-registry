@@ -6,7 +6,7 @@ workflows:
 jobs:
  test:
   docker:
-   - image: cimg/node:latest
+   - image: cimg/node:13.14.0
   steps:
    - checkout
    - run: node --version
