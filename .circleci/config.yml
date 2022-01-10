@@ -4,7 +4,7 @@ commands:
     steps:
       - run:
           name: Build Docker Images
-          command: docker build -t mypythonapp:latest -f Dockerfile .
+          command: docker build -t mypythonapp:latest .
 jobs:
   build_and_push:
     parameters:
