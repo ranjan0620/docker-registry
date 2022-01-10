@@ -17,6 +17,7 @@ jobs:
       - image: cimg/base:2021.04
     steps:   
       - checkout
+      - setup_remote_docker
       - build_image
 workflows:
   development:
