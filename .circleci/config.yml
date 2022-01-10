@@ -2,7 +2,7 @@ version: 2.1
 executors:
   docker-publisher:
     environment:
-      IMAGE_NAME: ranjanxth/my-repo
+      IMAGE_NAME: docker-registry-service.dev.fs.identv.com/testimage
     docker:
       - image: circleci/buildpack-deps:stretch
 jobs:
@@ -34,7 +34,7 @@ jobs:
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
-            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            echo "$MYREGISTRY_PASS" | docker login docker-registry-service.dev.fs.identv.com -u "$MYREGISTRY_USER" --password-stdin
             docker push $IMAGE_NAME:latest
 workflows:
   version: 2
