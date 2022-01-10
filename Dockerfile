@@ -1,4 +1,2 @@
-FROM python:latest
-WORKDIR /src/app
-COPY . .
-CMD ['python' 'hello.py']
+FROM alpine:3.8
+ENTRYPOINT [ "echo" ]
