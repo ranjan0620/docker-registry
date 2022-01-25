@@ -16,7 +16,7 @@ jobs:
     docker:
       - image: cimg/base:2021.04
     environment:
-      IMAGE_NAME: docker-registry-service.dev.fs.identv.com/newtestimage
+      IMAGE_NAME: 192.168.49.2:31000/newtestimage
     steps:
       - checkout
       - setup_remote_docker:
@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Publish Docker Image to Private Registry
           command: |
-            echo "$MYREGISTRY_PASS" | docker login docker-registry-service.dev.fs.identv.com -u "$MYREGISTRY_USER" --password-stdin
+            echo "$MYREGISTRY_PASS" | docker login 192.168.49.2:31000 -u "$MYREGISTRY_USER" --password-stdin
             docker push $IMAGE_NAME:latest
       #- slack/notify:
       #   event: fail
@@ -40,9 +40,9 @@ workflows:
   testbranch:
     jobs:
       - build_and_push:
-          dockerfile_name: Dockerfile
-          repo_name: "ranjan0620/docker-registry"
-          registry_url: "192.168.49.2:31000"
+          #dockerfile_name: Dockerfile
+          #repo_name: "ranjan0620/docker-registry"
+          #registry_url: "192.168.49.2:31000"
           filters:
             branches:
               only: master
