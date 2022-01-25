@@ -24,7 +24,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t << parameters.registry_url >>/<< repo_name >>:latest .
+            docker build -t << parameters.registry_url >>/<< repo_name >>:latest << parameters.dockerfile_name >>
       - run:
           name: Publish Docker Image to Private Registry
           command: |
@@ -41,8 +41,8 @@ workflows:
     jobs:
       - build_and_push:
           dockerfile_name: Dockerfile
-          repo_name: 'docker-registry'
-          registry_url: '192.168.49.2:31000'
+          repo_name: "ranjan0620/docker-registry"
+          registry_url: "192.168.49.2:31000"
           filters:
             branches:
               only: master
