@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Publish Docker Image to Private Registry
           command: |
-            echo "$MYREGISTRY_PASS" | docker login 192.168.49.2:31000 -u "$MYREGISTRY_USER" --password-stdin
+            echo "$MYREGISTRY_PASS" | docker login << parameters.registry_url >> -u "$MYREGISTRY_USER" --password-stdin
             docker push $IMAGE_NAME:latest
       #- slack/notify:
       #   event: fail
