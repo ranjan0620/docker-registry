@@ -11,25 +11,28 @@ jobs:
         default: Dockerfile
       repo_name:
         type: string
-      registry_url:
-        type: string
+      #registry_url:
+       # type: string
     docker:
       - image: cimg/base:2021.04
-    environment:
-      IMAGE_NAME: 192.168.49.2:31000/newtestimage
+    #environment:
+     # IMAGE_NAME: 192.168.49.2:31000/newtestimage
     steps:
       - checkout
       - setup_remote_docker:
           version: 19.03.13
       - run:
-          name: Build Docker image
-          command: |
-            docker build -t $IMAGE_NAME:latest .
-      - run:
-          name: Publish Docker Image to Private Registry
-          command: |
-            echo "$MYREGISTRY_PASS" | docker login << parameters.registry_url >> -u "$MYREGISTRY_USER" --password-stdin
-            docker push $IMAGE_NAME:latest
+          name: echo name
+          command: echo $REGISTRY_ADDRESS
+      #- run:
+       #   name: Build Docker image
+        #  command: |
+         #   docker build -t $IMAGE_NAME:latest .
+      #- run:
+       #   name: Publish Docker Image to Private Registry
+        #  command: |
+         #   echo "$MYREGISTRY_PASS" | docker login << parameters.registry_url >> -u "$MYREGISTRY_USER" --password-stdin
+          #  docker push $IMAGE_NAME:latest
       #- slack/notify:
       #   event: fail
        #  template: basic_fail_1
@@ -41,11 +44,11 @@ workflows:
     jobs:
       - build_and_push:
           dockerfile_name: Dockerfile
-          repo_name: "ranjan0620/docker-registry"
-          registry_url: "192.168.49.2:31000"
+          repo_name: "docker-registry"
+          #registry_url: "192.168.49.2:31000"
           filters:
             branches:
               only: master
-          #context: PRIVATE-REGISTRY
+          context: PRIVATE-REGISTRY
       # We can't do new_miami,asharq,malta with this because its in a private ZONE
       # SO we use KEEL there
