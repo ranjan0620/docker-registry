@@ -49,6 +49,6 @@ workflows:
           filters:
             branches:
               only: master
-          context: PRIVATE-REGISTRY
+          context: PRIVATE_REGISTRY
       # We can't do new_miami,asharq,malta with this because its in a private ZONE
       # SO we use KEEL there
