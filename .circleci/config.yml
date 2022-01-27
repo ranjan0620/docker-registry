@@ -23,7 +23,7 @@ jobs:
           version: 19.03.13
       - run:
           name: echo name
-          command: echo $REGISTRY_ADDRESS
+          command: echo '$REGISTRY_ADDRESS'
       #- run:
        #   name: Build Docker image
         #  command: |
