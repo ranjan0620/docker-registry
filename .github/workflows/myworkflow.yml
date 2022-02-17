@@ -1,0 +1,12 @@
+name: myworkflow
+
+on:
+ push: [ranjan/v1]
+
+jobs:
+ build:
+  runs-on: ubuntu-latest
+  steps:
+   - uses: actions/checkout@v2
+   - name: build docker image
+     run: docker build . -f Dockerfile --t my-image-name:$(date +%s)
