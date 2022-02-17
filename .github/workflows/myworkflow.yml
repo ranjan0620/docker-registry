@@ -1,7 +1,8 @@
 name: myworkflow
 
 on:
- push: [ranjan/v1]
+ push: 
+  branches: [ ranjan/v1 ]
 
 jobs:
  build:
