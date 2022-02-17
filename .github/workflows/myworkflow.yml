@@ -9,6 +9,7 @@ on:
 jobs:
  job1:
   runs-on: ubuntu-latest
-  name: echo
-  run: echo "Hello World!"
+  steps:
+   - name: echo
+   - run: echo "Hello World!"
 
