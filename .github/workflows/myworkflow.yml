@@ -1,0 +1,14 @@
+#test is a testworkflow
+
+name: myworkflow
+on:
+ push:
+  branches:
+   - ranjan/v1
+
+jobs:
+ job1:
+  runs-on: ubuntu-latest
+  steps:
+   - name: echo name
+   - run: echo "hello world"
