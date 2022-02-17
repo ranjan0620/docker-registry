@@ -1,1 +1,14 @@
 #this is just a test workflow
+name: testworkflow
+
+on:
+ push:
+  branches:
+   - master
+
+jobs:
+ job1:
+  runs-on: ubuntu-latest
+  name: echo
+  run: echo "Hello World!"
+
