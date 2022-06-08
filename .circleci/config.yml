@@ -31,38 +31,33 @@ jobs:
           repo: << parameters.repo_name >>
           skip-when-tags-exist: false
           tag: "latest,$CIRCLE_SHA1"
-  # k8_deploy:
-  #   parameters:
-  #     repo_name:
-  #       type: string
-  #   docker:
-  #     - image: 'circleci/python:3.7.1'
-  #   steps:
-  #     - checkout
-  #     - kubernetes/install-kubectl
-  #     - aws-cli/setup:
-  #         aws-access-key-id: AWS_ACCESS_KEY_ID
-  #         aws-region: AWS_DEFAULT_REGION
-  #         aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-  #     - aws-eks/update-kubeconfig-with-authenticator:
-  #         cluster-name: '$EKS_CLUSTER_NAME'
-  #         aws-region: '$AWS_DEFAULT_REGION'  
-  #     - kubernetes/create-or-update-resource:
-  #         get-rollout-status: true
-  #         resource-file-path: k8s/statefulSet.yml
-  #         resource-name: statefulsets/vader-curtain
-  #         show-kubectl-command: true
-  #     - kubernetes/update-container-image:
-  #         container-image-updates: "vader-curtain=$AWS_REPO_ID.dkr.ecr.us-east-1.amazonaws.com/<<parameters.repo_name>>:$CIRCLE_SHA1"
-  #         get-rollout-status: true
-  #         record: true
-  #         resource-name: statefulsets/vader-curtain
-  #     - slack/notify:
-  #         event: fail
-  #         template: basic_fail_1
-  #     - slack/notify:
-  #         event: pass
-  #         template: basic_success_1
+  k8_deploy:
+    parameters:
+      repo_name:
+        type: string
+    docker:
+      - image: 'circleci/python:3.7.1'
+    steps:
+      - checkout
+      - kubernetes/install-kubectl
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-region: AWS_DEFAULT_REGION
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: '$EKS_CLUSTER_NAME'
+          aws-region: '$AWS_DEFAULT_REGION'  
+      - kubernetes/create-or-update-resource:
+          get-rollout-status: true
+          resource-file-path: tests/deployment.yml
+          resource-name: deployment/vdta
+          show-kubectl-command: true
+      - kubernetes/update-container-image:
+          container-image-updates: "vdta=$AWS_REPO_ID.dkr.ecr.us-east-1.amazonaws.com/<<parameters.repo_name>>:$CIRCLE_SHA1"
+          get-rollout-status: true
+          record: true
+          resource-name: deployment/vdta
+  
 
 workflows:
   production:
@@ -74,11 +69,11 @@ workflows:
             branches:
               only: ranjan/vdta-test
           context: VDTA
-      # - k8_deploy:
-      #     repo_name: 'vader-curtain'
-      #     requires:
-      #       - build_and_push
-      #     filters:
-      #       branches:
-      #         only: main
-      #     context: VADER
+      - k8_deploy:
+          repo_name: 'vader-curtain'
+          requires:
+            - build_and_push
+          filters:
+            branches:
+              only: ranjan/vdta-test
+          context: VDTA
